@@ -36,14 +36,76 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+
+
 @app.route('/user', methods=['GET'])
 def handle_hello():
+    all_users=User.query.all()
+    all_users=list(map(lambda user:user.serialize(),all_users))
+
 
     response_body = {
         "msg": "Hello, this is your GET /user response "
     }
+    return jsonify(all_users), 200
 
-    return jsonify(response_body), 200
+@app.route('/user/favorites', methods=['GET'])
+def user_favorites():
+    favorite = {
+        "msg": "Hello, this is your GET /user/favorite response "
+    }
+    return jsonify(favorite), 200
+
+
+@app.route('/people', methods=['GET'])
+def get_all_people():
+    return jsonify({
+        "mensaje":"aca estaran todos los usuarios"})
+
+
+@app.route('/people/<int:id>', methods=['GET'])
+def get_one_people(id):
+    return jsonify({
+        "mensaje":"aca estara la informacion del personaje con id "+str(id)})
+
+
+@app.route('/planet', methods=['GET'])
+def get_all_planets():
+    return jsonify({
+        "mensaje":"aca estaran todos los usuarios"})
+
+
+@app.route('/planet/<int:id>', methods=['GET'])
+def get_one_planet(planet_id):
+    return jsonify({
+        "mensaje":"aca estara la informacion del planeta con id "+str(planet_id)})
+
+
+
+@app.route('/favorite/planet/<int:planet_id>', methods=['POST'])
+def post_fav_planet(planet_id):
+    return jsonify({
+        "mensaje":"el planeta con id "+str(planet_id)+" ha sido agregado"})
+
+
+@app.route('/favorite/people/<int:people_id>', methods=['POST'])
+def post_fav_people(people_id):
+    return jsonify({
+        "mensaje":"el personaje con id "+str(people_id)+" ha sido agregado"})
+
+@app.route('/favorite/people/<int:people_id>', methods=['DELETE'])
+def delete_fav_PEOPLE(people_id):
+    
+    return jsonify({
+   
+   
+        "mensaje":"el planeta con id "+str(people_id)+" ha sido ELIMINADO"})
+
+@app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
+def delete_fav_planet(planet_id):
+    
+    return jsonify({
+        "mensaje":"el planeta con id "+str(planet_id)+" ha sido ELIMINADO"})
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
