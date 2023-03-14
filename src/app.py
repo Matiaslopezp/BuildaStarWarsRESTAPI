@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Fav_user
 #from models import Person
 
 app = Flask(__name__)
@@ -42,15 +42,16 @@ def sitemap():
 def handle_hello():
     all_users=User.query.all()
     all_users=list(map(lambda user:user.serialize(),all_users))
-
-
     response_body = {
         "msg": "Hello, this is your GET /user response "
     }
     return jsonify(all_users), 200
 
+
 @app.route('/user/favorites', methods=['GET'])
-def user_favorites():
+def user_fav():
+    all_users_fav=Fav_user.query.all()
+    
     favorite = {
         "msg": "Hello, this is your GET /user/favorite response "
     }
