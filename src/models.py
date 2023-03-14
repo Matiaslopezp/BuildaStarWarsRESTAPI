@@ -25,7 +25,7 @@ class Fav_user(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "fav_users": self.fav_user,
+            "user_fav": self.user_fav,
             # do not serialize the password, its a security breach
         }
 
@@ -48,6 +48,11 @@ class Fav_people(db.Model):
     user_fav=db.Column(db.String(120),db.ForeignKey("user.email"))
     rel_people=db.relationship("People")
     rel_user=db.relationship("User")
+    def serialize(self):
+     return {
+        "id": self.id,
+        "name": self.people_name,         
+    }
 
 class Planet(db.Model):
     id=db.Column(db.Integer, primary_key=True)

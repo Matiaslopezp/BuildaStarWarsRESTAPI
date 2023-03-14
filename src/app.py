@@ -37,7 +37,6 @@ def sitemap():
     return generate_sitemap(app)
 
 
-
 @app.route('/user', methods=['GET'])
 def handle_hello():
     all_users=User.query.all()
@@ -49,13 +48,14 @@ def handle_hello():
 
 
 @app.route('/user/favorites', methods=['GET'])
-def user_fav():
+def user_favorito():
     all_users_fav=Fav_user.query.all()
+    all_users_fav=list(map(lambda user_fav:user_fav.serialize(),all_users_fav))
     
     favorite = {
         "msg": "Hello, this is your GET /user/favorite response "
     }
-    return jsonify(favorite), 200
+    return jsonify(all_users_fav), 200
 
 
 @app.route('/people', methods=['GET'])
